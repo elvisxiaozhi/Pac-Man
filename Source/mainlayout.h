@@ -16,8 +16,11 @@ public:
 private:
     QWidget *mainInterface;
     QGridLayout *gLayout;
-    QLabel *mLabels[10][10];
+    QLabel *mLabels[13][30];
 
+    void setLabels();
+    void setLetters();
+    void setBorders();
     void keyPressEvent(QKeyEvent *event);
 };
 
