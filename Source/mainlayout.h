@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QLabel>
+#include "labels.h"
 
 class MainLayout : public QMainWindow
 {
@@ -16,12 +17,10 @@ public:
 private:
     QWidget *mainInterface;
     QGridLayout *gLayout;
-    QLabel *mLabels[13][30];
 
-    void setLabels();
-    void setLetters();
-    void setBorders();
     void keyPressEvent(QKeyEvent *event);
+
+    Labels pixelLabels;
 };
 
 #endif // MAINLAYOUT_H

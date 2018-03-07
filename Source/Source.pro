@@ -25,7 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainlayout.cpp
+        mainlayout.cpp \
+    labels.cpp
 
 HEADERS += \
-        mainlayout.h
+        mainlayout.h \
+    labels.h
