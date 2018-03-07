@@ -77,7 +77,7 @@ void MainLayout::setBorders()
     for(int i = 0; i < 30; i++) {
         mLabels[0][0 + i]->setStyleSheet("QLabel {background-color: black; border-top: 2px solid blue; border-bottom: 2px solid blue;}");
         mLabels[0][0 + i]->setText("");
-        //“14（第一位数）”应随着row的数量而变化
+        //“12（第一位数）”应随着row的数量而变化
         mLabels[12][0 + i]->setStyleSheet("QLabel {background-color: black; border-top: 2px solid blue; border-bottom: 2px solid blue;}");
         mLabels[12][0 + i]->setText("");
     }
@@ -95,9 +95,13 @@ void MainLayout::setBorders()
         mLabels[10][2 + i]->setStyleSheet("QLabel {background-color: black; border-left: 2px solid blue; border-right: 2px solid blue;}");
         mLabels[10][2 + i]->setText("");
     }
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < 4; i++) {
         mLabels[10][5 + i]->setStyleSheet("QLabel {background-color: black; border-left: 2px solid blue; border-right: 2px solid blue;}");
         mLabels[10][5 + i]->setText("");
+    }
+    for(int i = 0; i < 5; i++) {
+        mLabels[8][1 + i]->setStyleSheet("QLabel {background-color: black; border-top: 2px solid blue; border-bottom: 2px solid blue;}");
+        mLabels[8][1 + i]->setText("");
     }
 }
 
