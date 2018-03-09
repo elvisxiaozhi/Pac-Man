@@ -31,3 +31,6 @@ SOURCES += \
 HEADERS += \
         mainlayout.h \
     labels.h
+
+RESOURCES += \
+    ../Icons/icons.qrc

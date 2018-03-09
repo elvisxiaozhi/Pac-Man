@@ -12,6 +12,12 @@ public:
     void setLabels();
     void setLetters();
     void setBorders();
+    void setYellowBall();
+    void moveYellowBall(int);
+
+private:
+    int currentRow, currentCol;
+    void getCurrentYellowBallPos();
 };
 
 #endif // LABELS_H

@@ -26,6 +26,9 @@ MainLayout::~MainLayout()
 
 void MainLayout::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Right)
-        qDebug() << "U";
+    int arrowKey = 0;
+    if(event->key() == Qt::Key_Left) {
+        arrowKey = 3;
+        pixelLabels.moveYellowBall(3);
+    }
 }
