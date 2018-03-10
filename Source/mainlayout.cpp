@@ -1,6 +1,7 @@
 #include "mainlayout.h"
 #include <QDebug>
 #include <QKeyEvent>
+#include <QThread>
 
 MainLayout::MainLayout(QWidget *parent)
     : QMainWindow(parent)
@@ -29,6 +30,9 @@ void MainLayout::keyPressEvent(QKeyEvent *event)
     int arrowKey = 0;
     if(event->key() == Qt::Key_Left) {
         arrowKey = 3;
-        pixelLabels.moveYellowBall(3);
+//        while(true) {
+            pixelLabels.moveYellowBall(arrowKey);
+//            QThread::sleep(500);
+//        }
     }
 }

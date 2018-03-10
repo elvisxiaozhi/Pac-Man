@@ -9,6 +9,7 @@ public:
     Labels();
 
     QLabel *mLabels[13][30];
+
     void setLabels();
     void setLetters();
     void setBorders();
@@ -18,6 +19,7 @@ public:
 private:
     int currentRow, currentCol;
     void getCurrentYellowBallPos();
+    void moveCurrentYellowBall(int);
 };
 
 #endif // LABELS_H

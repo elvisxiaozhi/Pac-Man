@@ -1,5 +1,6 @@
 #include "labels.h"
 #include <QDebug>
+#include <QThread>
 
 Labels::Labels()
 {
@@ -122,6 +123,7 @@ void Labels::moveYellowBall(int arrowKey)
         //go left
         qDebug() << "Go left";
         getCurrentYellowBallPos();
+        moveCurrentYellowBall(arrowKey);
         break;
     default:
         break;
@@ -135,10 +137,35 @@ void Labels::getCurrentYellowBallPos()
             if(mLabels[i][j]->objectName() == "Yellow_Ball") {
                 currentRow = i;
                 currentCol = j;
-                QPixmap emptyPixmap;
-                mLabels[i][j]->setPixmap(emptyPixmap);
                 break;
             }
         }
     }
+    qDebug() << currentRow << currentCol;
+}
+
+void Labels::moveCurrentYellowBall(int moveDirection)
+{
+    QPixmap yellowBallPixmap("://yellow_ball.png");
+    QPixmap emptyPixmap;
+
+    int w, h;
+    w = mLabels[0][0]->width();
+    h = mLabels[0][0]->height();
+
+    switch (moveDirection) {
+    case 3:
+        //go left
+        if(mLabels[currentRow][currentCol - 1]->objectName() != "Barrier") {
+            mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
+
+            mLabels[currentRow][currentCol - 1]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
+            mLabels[currentRow][currentCol - 1]->setObjectName("Yellow_Ball");
+        }
+        break;
+    default:
+        break;
+    }
+
+    getCurrentYellowBallPos();
 }
