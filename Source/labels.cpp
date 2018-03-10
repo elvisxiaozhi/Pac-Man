@@ -5,7 +5,6 @@
 Labels::Labels()
 {
     setLabels();
-    setLetters();
     markBarriers();
     setBarriers();
     setYellowBall();
@@ -20,57 +19,6 @@ void Labels::setLabels()
             mLabels[i][j]->setAlignment(Qt::AlignCenter);
             mLabels[i][j]->setFixedSize(25, 25);
         }
-    }
-}
-
-void Labels::setLetters()
-{
-    for(int i = 0; i < 5; i++) {
-        mLabels[2][5 + i]->setStyleSheet("QLabel {background-color: red/*; border: 1px solid blue;*/}");
-        mLabels[2][5 + i]->setText("");
-        mLabels[2][5 + i]->setObjectName("Barrier");
-    }
-    for(int i = 0; i < 7; i++) {
-        mLabels[2 + i][7]->setStyleSheet("QLabel {background-color: red}");
-        mLabels[2 + i][7]->setText("");
-        mLabels[2 + i][7]->setObjectName("Barrier");
-        mLabels[2 + i][11]->setStyleSheet("QLabel {background-color: yellow}");
-        mLabels[2 + i][11]->setText("");
-        mLabels[2 + i][11]->setObjectName("Barrier");
-        mLabels[2 + i][14]->setStyleSheet("QLabel {background-color: yellow}");
-        mLabels[2 + i][14]->setText("");
-        mLabels[2 + i][14]->setObjectName("Barrier");
-        mLabels[2 + i][16]->setStyleSheet("QLabel {background-color: blue}");
-        mLabels[2 + i][16]->setText("");
-        mLabels[2 + i][16]->setObjectName("Barrier");
-        mLabels[2 + i][21]->setStyleSheet("QLabel {background-color: green}");
-        mLabels[2 + i][21]->setText("");
-        mLabels[2 + i][21]->setObjectName("Barrier");
-        mLabels[2 + i][24]->setStyleSheet("QLabel {background-color: green}");
-        mLabels[2 + i][24]->setText("");
-        mLabels[2 + i][24]->setObjectName("Barrier");
-    }
-    for(int i = 0; i < 2; i++) {
-        mLabels[5][12 + i]->setStyleSheet("QLabel {background-color: yellow}");
-        mLabels[5][12 + i]->setText("");
-        mLabels[5][12 + i]->setObjectName("Barrier");
-        mLabels[2][22 + i]->setStyleSheet("QLabel {background-color: green}");
-        mLabels[2][22 + i]->setText("");
-        mLabels[2][22 + i]->setObjectName("Barrier");
-        mLabels[8][22 + i]->setStyleSheet("QLabel {background-color: green}");
-        mLabels[8][22 + i]->setText("");
-        mLabels[8][22 + i]->setObjectName("Barrier");
-    }
-    for(int i = 0; i < 3; i++) {
-        mLabels[2][17 + i]->setStyleSheet("QLabel {background-color: blue}");
-        mLabels[2][17 + i]->setText("");
-        mLabels[2][17 + i]->setObjectName("Barrier");
-        mLabels[5][17 + i]->setStyleSheet("QLabel {background-color: blue}");
-        mLabels[5][17 + i]->setText("");
-        mLabels[5][17 + i]->setObjectName("Barrier");
-        mLabels[8][17 + i]->setStyleSheet("QLabel {background-color: blue}");
-        mLabels[8][17 + i]->setText("");
-        mLabels[8][17 + i]->setObjectName("Barrier");
     }
 }
 
@@ -124,17 +72,34 @@ void Labels::moveYellowBall(int arrowKey)
 void Labels::markBarriers()
 {
     for(int i = 0; i < 2; i++) {
+        mLabels[5][12 + i]->setObjectName("Yellow_Letter");
+        mLabels[2][22 + i]->setObjectName("Green_Letter");
+        mLabels[8][22 + i]->setObjectName("Green_Letter");
         mLabels[10 + i][10]->setObjectName("Barrier_1");
         mLabels[10 + i][24]->setObjectName("Barrier_1");
         mLabels[10][2 + i]->setObjectName("Barrier_1");
+    }
+    for(int i = 0; i < 3; i++) {
+        mLabels[2][17 + i]->setObjectName("Blue_Letter");
+        mLabels[5][17 + i]->setObjectName("Blue_Letter");
+        mLabels[8][17 + i]->setObjectName("Blue_Letter");
     }
     for(int i = 0; i < 4; i++) {
         mLabels[10][5 + i]->setObjectName("Barrier_1");
     }
     for(int i = 0; i < 5; i++) {
+        mLabels[2][5 + i]->setObjectName("Red_Letter");
         mLabels[8][1 + i]->setObjectName("Barrier_1");
         mLabels[10][12 + i]->setObjectName("Barrier_1");
         mLabels[10][18 + i]->setObjectName("Barrier_1");
+    }
+    for(int i = 0; i < 7; i++) {
+        mLabels[2 + i][7]->setObjectName("Red_Letter");
+        mLabels[2 + i][11]->setObjectName("Yellow_Letter");
+        mLabels[2 + i][14]->setObjectName("Yellow_Letter");
+        mLabels[2 + i][16]->setObjectName("Blue_Letter");
+        mLabels[2 + i][21]->setObjectName("Green_Letter");
+        mLabels[2 + i][24]->setObjectName("Green_Letter");
     }
 }
 
@@ -150,6 +115,22 @@ void Labels::setBarriers()
             if(mLabels[i][j]->objectName() == "Barrier_1") {
                 mLabels[i][j]->setText("");
                 mLabels[i][j]->setStyleSheet("QLabel {background-color: purple}");
+            }
+            if(mLabels[i][j]->objectName() == "Red_Letter") {
+                mLabels[i][j]->setText("");
+                mLabels[i][j]->setStyleSheet("QLabel {background-color: red}");
+            }
+            if(mLabels[i][j]->objectName() == "Blue_Letter") {
+                mLabels[i][j]->setText("");
+                mLabels[i][j]->setStyleSheet("QLabel {background-color: blue}");
+            }
+            if(mLabels[i][j]->objectName() == "Yellow_Letter") {
+                mLabels[i][j]->setText("");
+                mLabels[i][j]->setStyleSheet("QLabel {background-color: yellow}");
+            }
+            if(mLabels[i][j]->objectName() == "Green_Letter") {
+                mLabels[i][j]->setText("");
+                mLabels[i][j]->setStyleSheet("QLabel {background-color: green}");
             }
         }
     }

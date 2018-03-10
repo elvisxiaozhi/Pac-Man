@@ -11,7 +11,6 @@ public:
     QLabel *mLabels[13][30];
 
     void setLabels();
-    void setLetters();
     void setYellowBall();
     void moveYellowBall(int);
 
