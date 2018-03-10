@@ -12,12 +12,14 @@ public:
 
     void setLabels();
     void setLetters();
-    void setBorders();
     void setYellowBall();
     void moveYellowBall(int);
 
 private:
     int currentRow, currentCol;
+
+    void markBarriers();
+    void setBarriers();
     void getCurrentYellowBallPos();
     void moveCurrentYellowBall(int, int);
 };
