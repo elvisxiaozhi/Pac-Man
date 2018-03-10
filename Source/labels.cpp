@@ -15,7 +15,7 @@ void Labels::setLabels()
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
             mLabels[i][j] = new QLabel;
-            mLabels[i][j]->setText(QString::number(i) + QString::number(j)); //用于调试的时候用
+//            mLabels[i][j]->setText(QString::number(i) + QString::number(j)); //用于调试的时候用
             mLabels[i][j]->setAlignment(Qt::AlignCenter);
             mLabels[i][j]->setFixedSize(25, 25);
         }
@@ -75,9 +75,11 @@ void Labels::markBarriers()
         mLabels[5][12 + i]->setObjectName("Yellow_Letter");
         mLabels[2][22 + i]->setObjectName("Green_Letter");
         mLabels[8][22 + i]->setObjectName("Green_Letter");
-        mLabels[10 + i][10]->setObjectName("Barrier_1");
-        mLabels[10 + i][24]->setObjectName("Barrier_1");
-        mLabels[10][2 + i]->setObjectName("Barrier_1");
+        mLabels[10 + i][10]->setObjectName("Road_Barrier");
+        mLabels[10 + i][24]->setObjectName("Road_Barrier");
+        mLabels[10][2 + i]->setObjectName("Road_Barrier");
+        mLabels[3][27 + i]->setObjectName("Road_Barrier");
+        mLabels[5][4 + i]->setObjectName("Road_Barrier");
     }
     for(int i = 0; i < 3; i++) {
         mLabels[2][17 + i]->setObjectName("Blue_Letter");
@@ -85,13 +87,15 @@ void Labels::markBarriers()
         mLabels[8][17 + i]->setObjectName("Blue_Letter");
     }
     for(int i = 0; i < 4; i++) {
-        mLabels[10][5 + i]->setObjectName("Barrier_1");
+        mLabels[10][5 + i]->setObjectName("Road_Barrier");
     }
     for(int i = 0; i < 5; i++) {
         mLabels[2][5 + i]->setObjectName("Red_Letter");
-        mLabels[8][1 + i]->setObjectName("Barrier_1");
-        mLabels[10][12 + i]->setObjectName("Barrier_1");
-        mLabels[10][18 + i]->setObjectName("Barrier_1");
+        mLabels[8][1 + i]->setObjectName("Road_Barrier");
+        mLabels[10][12 + i]->setObjectName("Road_Barrier");
+        mLabels[10][18 + i]->setObjectName("Road_Barrier");
+        mLabels[6 + i][26]->setObjectName("Road_Barrier");
+        mLabels[2 + i][2]->setObjectName("Road_Barrier");
     }
     for(int i = 0; i < 7; i++) {
         mLabels[2 + i][7]->setObjectName("Red_Letter");
@@ -108,29 +112,33 @@ void Labels::setBarriers()
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
             if(i == 0 || i == 12 || j == 0 || j == 29) {
-                mLabels[i][j]->setObjectName("Border");
-                mLabels[i][j]->setText("");
+                mLabels[i][j]->setObjectName("Border_Barrier");
                 mLabels[i][j]->setStyleSheet("QLabel {background-color: grey}");
             }
-            if(mLabels[i][j]->objectName() == "Barrier_1") {
-                mLabels[i][j]->setText("");
+            if(mLabels[i][j]->objectName() == "Road_Barrier") {
                 mLabels[i][j]->setStyleSheet("QLabel {background-color: purple}");
             }
             if(mLabels[i][j]->objectName() == "Red_Letter") {
-                mLabels[i][j]->setText("");
                 mLabels[i][j]->setStyleSheet("QLabel {background-color: red}");
             }
             if(mLabels[i][j]->objectName() == "Blue_Letter") {
-                mLabels[i][j]->setText("");
                 mLabels[i][j]->setStyleSheet("QLabel {background-color: blue}");
             }
             if(mLabels[i][j]->objectName() == "Yellow_Letter") {
-                mLabels[i][j]->setText("");
                 mLabels[i][j]->setStyleSheet("QLabel {background-color: yellow}");
             }
             if(mLabels[i][j]->objectName() == "Green_Letter") {
-                mLabels[i][j]->setText("");
                 mLabels[i][j]->setStyleSheet("QLabel {background-color: green}");
+            }
+        }
+    }
+
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            if(mLabels[i][j]->objectName() == "Border_Barrier" || mLabels[i][j]->objectName() == "Road_Barrier" ||
+                    mLabels[i][j]->objectName() == "Red_Letter" || mLabels[i][j]->objectName() == "Blue_Letter" ||
+                    mLabels[i][j]->objectName() == "Yellow_Letter" || mLabels[i][j]->objectName() == "Green_Letter") {
+                mLabels[i][j]->setObjectName("Barrier");
             }
         }
     }
