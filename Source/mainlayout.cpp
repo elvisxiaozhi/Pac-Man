@@ -28,11 +28,20 @@ MainLayout::~MainLayout()
 void MainLayout::keyPressEvent(QKeyEvent *event)
 {
     int arrowKey = 0;
+    if(event->key() == Qt::Key_Up) {
+        arrowKey = 1;
+        pixelLabels.moveYellowBall(arrowKey);
+    }
+    if(event->key() == Qt::Key_Down) {
+        arrowKey = 2;
+        pixelLabels.moveYellowBall(arrowKey);
+    }
     if(event->key() == Qt::Key_Left) {
         arrowKey = 3;
-//        while(true) {
-            pixelLabels.moveYellowBall(arrowKey);
-//            QThread::sleep(500);
-//        }
+        pixelLabels.moveYellowBall(arrowKey);
+    }
+    if(event->key() == Qt::Key_Right) {
+        arrowKey = 4;
+        pixelLabels.moveYellowBall(arrowKey);
     }
 }

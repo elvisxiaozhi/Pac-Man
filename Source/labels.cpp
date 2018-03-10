@@ -27,36 +27,49 @@ void Labels::setLetters()
     for(int i = 0; i < 5; i++) {
         mLabels[2][5 + i]->setStyleSheet("QLabel {background-color: red/*; border: 1px solid blue;*/}");
         mLabels[2][5 + i]->setText("");
+        mLabels[2][5 + i]->setObjectName("Barrier");
     }
     for(int i = 0; i < 7; i++) {
         mLabels[2 + i][7]->setStyleSheet("QLabel {background-color: red}");
         mLabels[2 + i][7]->setText("");
+        mLabels[2 + i][7]->setObjectName("Barrier");
         mLabels[2 + i][11]->setStyleSheet("QLabel {background-color: yellow}");
         mLabels[2 + i][11]->setText("");
+        mLabels[2 + i][11]->setObjectName("Barrier");
         mLabels[2 + i][14]->setStyleSheet("QLabel {background-color: yellow}");
         mLabels[2 + i][14]->setText("");
+        mLabels[2 + i][14]->setObjectName("Barrier");
         mLabels[2 + i][16]->setStyleSheet("QLabel {background-color: blue}");
         mLabels[2 + i][16]->setText("");
+        mLabels[2 + i][16]->setObjectName("Barrier");
         mLabels[2 + i][21]->setStyleSheet("QLabel {background-color: green}");
         mLabels[2 + i][21]->setText("");
+        mLabels[2 + i][21]->setObjectName("Barrier");
         mLabels[2 + i][24]->setStyleSheet("QLabel {background-color: green}");
         mLabels[2 + i][24]->setText("");
+        mLabels[2 + i][24]->setObjectName("Barrier");
     }
     for(int i = 0; i < 2; i++) {
         mLabels[5][12 + i]->setStyleSheet("QLabel {background-color: yellow}");
         mLabels[5][12 + i]->setText("");
+        mLabels[5][12 + i]->setObjectName("Barrier");
         mLabels[2][22 + i]->setStyleSheet("QLabel {background-color: green}");
         mLabels[2][22 + i]->setText("");
+        mLabels[2][22 + i]->setObjectName("Barrier");
         mLabels[8][22 + i]->setStyleSheet("QLabel {background-color: green}");
         mLabels[8][22 + i]->setText("");
+        mLabels[8][22 + i]->setObjectName("Barrier");
     }
     for(int i = 0; i < 3; i++) {
         mLabels[2][17 + i]->setStyleSheet("QLabel {background-color: blue}");
         mLabels[2][17 + i]->setText("");
+        mLabels[2][17 + i]->setObjectName("Barrier");
         mLabels[5][17 + i]->setStyleSheet("QLabel {background-color: blue}");
         mLabels[5][17 + i]->setText("");
+        mLabels[5][17 + i]->setObjectName("Barrier");
         mLabels[8][17 + i]->setStyleSheet("QLabel {background-color: blue}");
         mLabels[8][17 + i]->setText("");
+        mLabels[8][17 + i]->setObjectName("Barrier");
     }
 }
 
@@ -118,16 +131,34 @@ void Labels::setYellowBall()
 
 void Labels::moveYellowBall(int arrowKey)
 {
+    int row = 0, col = 0;
     switch (arrowKey) {
+    case 1:
+        //go up
+        qDebug() << "Go up";
+        row = -1;
+        break;
+    case 2:
+        //go down
+        qDebug() << "Go down";
+        row = 1;
+        break;
     case 3:
         //go left
         qDebug() << "Go left";
-        getCurrentYellowBallPos();
-        moveCurrentYellowBall(arrowKey);
+        col = -1;
+        break;
+    case 4:
+        //go right
+        qDebug() << "Go right";
+        col = 1;
         break;
     default:
         break;
     }
+
+    getCurrentYellowBallPos();
+    moveCurrentYellowBall(row, col);
 }
 
 void Labels::getCurrentYellowBallPos()
@@ -144,7 +175,7 @@ void Labels::getCurrentYellowBallPos()
     qDebug() << currentRow << currentCol;
 }
 
-void Labels::moveCurrentYellowBall(int moveDirection)
+void Labels::moveCurrentYellowBall(int row, int col)
 {
     QPixmap yellowBallPixmap("://yellow_ball.png");
     QPixmap emptyPixmap;
@@ -153,18 +184,12 @@ void Labels::moveCurrentYellowBall(int moveDirection)
     w = mLabels[0][0]->width();
     h = mLabels[0][0]->height();
 
-    switch (moveDirection) {
-    case 3:
-        //go left
-        if(mLabels[currentRow][currentCol - 1]->objectName() != "Barrier") {
-            mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
+    if(mLabels[currentRow + row][currentCol + col]->objectName() != "Barrier") {
+        mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
+        mLabels[currentRow][currentCol]->setObjectName("");
 
-            mLabels[currentRow][currentCol - 1]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
-            mLabels[currentRow][currentCol - 1]->setObjectName("Yellow_Ball");
-        }
-        break;
-    default:
-        break;
+        mLabels[currentRow + row][currentCol + col]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
+        mLabels[currentRow + row][currentCol + col]->setObjectName("Yellow_Ball");
     }
 
     getCurrentYellowBallPos();

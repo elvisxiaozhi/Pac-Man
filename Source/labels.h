@@ -19,7 +19,7 @@ public:
 private:
     int currentRow, currentCol;
     void getCurrentYellowBallPos();
-    void moveCurrentYellowBall(int);
+    void moveCurrentYellowBall(int, int);
 };
 
 #endif // LABELS_H
