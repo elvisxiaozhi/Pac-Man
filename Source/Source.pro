@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainlayout.cpp \
-    labels.cpp
+    labels.cpp \
+    specialdot.cpp
 
 HEADERS += \
         mainlayout.h \
-    labels.h
+    labels.h \
+    specialdot.h
 
 RESOURCES += \
     ../Icons/icons.qrc

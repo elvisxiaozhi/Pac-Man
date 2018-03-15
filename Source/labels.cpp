@@ -1,12 +1,14 @@
 #include "labels.h"
 #include <QDebug>
-#include <windows.h>
+#include <windows.h> //sleep function
 
 Labels::Labels()
 {
     setLabels();
     markBarriers();
     setBarriers();
+    setDots();
+    connect(this, &Labels::mLabelsChanged, &mDots, &SpecialDot::testing);
     setYellowBall();
 }
 
@@ -30,6 +32,7 @@ void Labels::setYellowBall()
     h = mLabels[0][0]->height();
     mLabels[11][4]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
     mLabels[11][4]->setObjectName("Yellow_Ball");
+    emit mLabelsChanged(2);
 }
 
 void Labels::moveYellowBall(int arrowKey)
@@ -38,35 +41,26 @@ void Labels::moveYellowBall(int arrowKey)
     switch (arrowKey) {
     case 1:
         //go up
-        qDebug() << "Go up";
         row = -1;
         break;
     case 2:
         //go down
-        qDebug() << "Go down";
         row = 1;
         break;
     case 3:
         //go left
-        qDebug() << "Go left";
         col = -1;
         break;
     case 4:
         //go right
-        qDebug() << "Go right";
         col = 1;
         break;
     default:
         break;
     }
 
-//    int i = 0;
-//    while(i < 3) {
-        getCurrentYellowBallPos();
-        moveCurrentYellowBall(row, col);
-//        Sleep(500);
-//        i++;
-//    }
+    getCurrentYellowBallPos();
+    moveCurrentYellowBall(row, col);
 }
 
 void Labels::markBarriers()
@@ -144,6 +138,24 @@ void Labels::setBarriers()
     }
 }
 
+void Labels::setDots()
+{
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            if(mLabels[i][j]->objectName() != "Barrier") {
+                mLabels[i][j]->setObjectName("Dot");
+                mLabels[i][j]->setText("•");
+                mLabels[i][j]->setStyleSheet("QLabel {color : orange; font-size: 25px}");
+                dotRows.push_back(i);
+                dotCols.push_back(j);
+            }
+        }
+    }
+//    for(int i = 0; i < 5; i++) {
+//        mLabels[mDots.Rows[i]][mDots.Cols[i]]->setStyleSheet("QLabel {color : orange; font-size: 25px}");
+//    }
+}
+
 void Labels::getCurrentYellowBallPos()
 {
     for(int i = 0; i < 13; i++) {
@@ -155,7 +167,6 @@ void Labels::getCurrentYellowBallPos()
             }
         }
     }
-    qDebug() << currentRow << currentCol;
 }
 
 void Labels::moveCurrentYellowBall(int row, int col)
