@@ -30,6 +30,8 @@ MainLayout::MainLayout(QWidget *parent)
 
     setLabels.updateLabels();
     setLabels.setDots();
+
+    dotNumber = setDots.countDotNumber();
 }
 
 MainLayout::~MainLayout()
@@ -57,7 +59,30 @@ void MainLayout::keyPressEvent(QKeyEvent *event)
     }
 }
 
+bool MainLayout::checkWin()
+{
+    int ateNumber;
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            if(pixelLabels[i][j].objectName() == "") {
+                ateNumber++;
+            }
+        }
+    }
+    qDebug() << "Ate" << ateNumber;
+    if(ateNumber == dotNumber) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 void MainLayout::afterTimeout()
 {
     setLabels.moveYellowBall(arrowKey);
+    if(checkWin() == true) {
+        setTimer->stop();
+        setMsBox.showPlayAgainMsBox();
+    }
 }

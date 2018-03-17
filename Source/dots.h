@@ -8,6 +8,7 @@ public:
     Dots();
 
     void generateFiveSpecialDots();
+    int countDotNumber();
 };
 
 #endif // DOTS_H

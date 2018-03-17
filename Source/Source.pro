@@ -28,13 +28,15 @@ SOURCES += \
         mainlayout.cpp \
     labels.cpp \
     barriers.cpp \
-    dots.cpp
+    dots.cpp \
+    messageboxes.cpp
 
 HEADERS += \
         mainlayout.h \
     labels.h \
     barriers.h \
-    dots.h
+    dots.h \
+    messageboxes.h
 
 RESOURCES += \
     ../Icons/icons.qrc

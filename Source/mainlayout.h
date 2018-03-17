@@ -7,6 +7,7 @@
 #include <QTimer>
 #include "labels.h"
 #include "dots.h"
+#include "messageboxes.h"
 
 class MainLayout : public QMainWindow
 {
@@ -18,15 +19,18 @@ public:
 
 private:
     int arrowKey;
+    int dotNumber;
 
     QWidget *mainInterface;
     QGridLayout *gLayout;
     QTimer *setTimer;
 
     void keyPressEvent(QKeyEvent *);
+    bool checkWin();
 
     Labels setLabels;
     Dots setDots;
+    MessageBoxes setMsBox;
 
 private slots:
     void afterTimeout();

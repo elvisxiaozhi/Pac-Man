@@ -21,3 +21,16 @@ void Dots::generateFiveSpecialDots()
         }
     }
 }
+
+int Dots::countDotNumber()
+{
+    int dotNumber = 0;
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            if(pixelLabels[i][j].objectName() == "Dot" || pixelLabels[i][j].objectName() == "Special_Dot") {
+                dotNumber++;
+            }
+        }
+    }
+    return dotNumber;
+}
