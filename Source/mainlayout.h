@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include "labels.h"
+#include "dots.h"
 
 class MainLayout : public QMainWindow
 {
@@ -20,7 +21,8 @@ private:
 
     void keyPressEvent(QKeyEvent *event);
 
-    Labels pixelLabels;
+    Labels setLabels;
+    Dots setDots;
 };
 
 #endif // MAINLAYOUT_H

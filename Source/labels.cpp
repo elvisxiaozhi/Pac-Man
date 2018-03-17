@@ -2,24 +2,35 @@
 #include <QDebug>
 #include <windows.h> //sleep function
 
-Labels::Labels()
-{
-    setLabels();
-    markBarriers();
-    setBarriers();
-    setDots();
-    connect(this, &Labels::mLabelsChanged, &mDots, &SpecialDot::testing);
-    setYellowBall();
-}
+QLabel **pixelLabels = new QLabel*[13];
 
-void Labels::setLabels()
+Labels::Labels()
 {
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
+            //pixelLabels[i][j].setText(QString::number(i) + QString::number(j)); //用于调试的时候用
+
             mLabels[i][j] = new QLabel;
-//            mLabels[i][j]->setText(QString::number(i) + QString::number(j)); //用于调试的时候用
             mLabels[i][j]->setAlignment(Qt::AlignCenter);
             mLabels[i][j]->setFixedSize(25, 25);
+        }
+    }
+}
+
+void Labels::updateLabels()
+{
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            mLabels[i][j]->setObjectName(pixelLabels[i][j].objectName());
+        }
+    }
+}
+
+void Labels::updateExternLabels()
+{
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            pixelLabels[i][j].setObjectName(mLabels[i][j]->objectName());
         }
     }
 }
@@ -32,7 +43,8 @@ void Labels::setYellowBall()
     h = mLabels[0][0]->height();
     mLabels[11][4]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
     mLabels[11][4]->setObjectName("Yellow_Ball");
-    emit mLabelsChanged(2);
+
+    updateExternLabels();
 }
 
 void Labels::moveYellowBall(int arrowKey)
@@ -61,44 +73,8 @@ void Labels::moveYellowBall(int arrowKey)
 
     getCurrentYellowBallPos();
     moveCurrentYellowBall(row, col);
-}
 
-void Labels::markBarriers()
-{
-    for(int i = 0; i < 2; i++) {
-        mLabels[5][12 + i]->setObjectName("Yellow_Letter");
-        mLabels[2][22 + i]->setObjectName("Green_Letter");
-        mLabels[8][22 + i]->setObjectName("Green_Letter");
-        mLabels[10 + i][10]->setObjectName("Road_Barrier");
-        mLabels[10 + i][24]->setObjectName("Road_Barrier");
-        mLabels[10][2 + i]->setObjectName("Road_Barrier");
-        mLabels[3][27 + i]->setObjectName("Road_Barrier");
-        mLabels[5][4 + i]->setObjectName("Road_Barrier");
-    }
-    for(int i = 0; i < 3; i++) {
-        mLabels[2][17 + i]->setObjectName("Blue_Letter");
-        mLabels[5][17 + i]->setObjectName("Blue_Letter");
-        mLabels[8][17 + i]->setObjectName("Blue_Letter");
-    }
-    for(int i = 0; i < 4; i++) {
-        mLabels[10][5 + i]->setObjectName("Road_Barrier");
-    }
-    for(int i = 0; i < 5; i++) {
-        mLabels[2][5 + i]->setObjectName("Red_Letter");
-        mLabels[8][1 + i]->setObjectName("Road_Barrier");
-        mLabels[10][12 + i]->setObjectName("Road_Barrier");
-        mLabels[10][18 + i]->setObjectName("Road_Barrier");
-        mLabels[6 + i][26]->setObjectName("Road_Barrier");
-        mLabels[2 + i][2]->setObjectName("Road_Barrier");
-    }
-    for(int i = 0; i < 7; i++) {
-        mLabels[2 + i][7]->setObjectName("Red_Letter");
-        mLabels[2 + i][11]->setObjectName("Yellow_Letter");
-        mLabels[2 + i][14]->setObjectName("Yellow_Letter");
-        mLabels[2 + i][16]->setObjectName("Blue_Letter");
-        mLabels[2 + i][21]->setObjectName("Green_Letter");
-        mLabels[2 + i][24]->setObjectName("Green_Letter");
-    }
+    updateExternLabels();
 }
 
 void Labels::setBarriers()
@@ -136,24 +112,28 @@ void Labels::setBarriers()
             }
         }
     }
+
+    updateExternLabels();
 }
 
 void Labels::setDots()
 {
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
-            if(mLabels[i][j]->objectName() != "Barrier") {
+            if(mLabels[i][j]->objectName() == "") {
                 mLabels[i][j]->setObjectName("Dot");
                 mLabels[i][j]->setText("•");
                 mLabels[i][j]->setStyleSheet("QLabel {color : orange; font-size: 25px}");
-                dotRows.push_back(i);
-                dotCols.push_back(j);
+            }
+
+            if(mLabels[i][j]->objectName() == "Special_Dot") {
+                mLabels[i][j]->setText("•");
+                mLabels[i][j]->setStyleSheet("QLabel {color : blue; font-size: 40px}");
             }
         }
     }
-//    for(int i = 0; i < 5; i++) {
-//        mLabels[mDots.Rows[i]][mDots.Cols[i]]->setStyleSheet("QLabel {color : orange; font-size: 25px}");
-//    }
+
+    updateExternLabels();
 }
 
 void Labels::getCurrentYellowBallPos()
