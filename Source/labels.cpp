@@ -1,5 +1,6 @@
 #include "labels.h"
 #include <QDebug>
+#include <QKeyEvent>
 #include <windows.h>
 
 QLabel **pixelLabels = new QLabel*[13];
@@ -76,15 +77,6 @@ void Labels::moveYellowBall(int arrowKey)
     moveCurrentYellowBall(row, col);
 
     updateExternLabels();
-}
-
-void Labels::testing()
-{
-    for(int i = 0; i < 13; i++) {
-        for(int j = 0; j < 30; j++) {
-            mLabels[i][j]->setText(QString::number(i) + QString::number(j));
-        }
-    }
 }
 
 void Labels::setEmptyPlaces()

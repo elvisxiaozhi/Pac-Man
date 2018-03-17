@@ -1,7 +1,7 @@
 #include "mainlayout.h"
 #include <QDebug>
 #include <QKeyEvent>
-#include <QThread>
+#include "windows.h"
 
 MainLayout::MainLayout(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +12,9 @@ MainLayout::MainLayout(QWidget *parent)
     gLayout = new QGridLayout(mainInterface);
     mainInterface->setLayout(gLayout);
     gLayout->setSpacing(0);
+
+    setTimer = new QTimer(); //timer is used for keeping objects moving
+    connect(setTimer, &QTimer::timeout, this, &MainLayout::afterTimeout);
 
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
@@ -27,8 +30,6 @@ MainLayout::MainLayout(QWidget *parent)
 
     setLabels.updateLabels();
     setLabels.setDots();
-
-//    setLabels.testing();
 }
 
 MainLayout::~MainLayout()
@@ -38,21 +39,25 @@ MainLayout::~MainLayout()
 
 void MainLayout::keyPressEvent(QKeyEvent *event)
 {
-    int arrowKey = 0;
     if(event->key() == Qt::Key_Up) {
         arrowKey = 1;
-        setLabels.moveYellowBall(arrowKey);
+        setTimer->start(200);
     }
     if(event->key() == Qt::Key_Down) {
         arrowKey = 2;
-        setLabels.moveYellowBall(arrowKey);
+        setTimer->start(200);
     }
     if(event->key() == Qt::Key_Left) {
         arrowKey = 3;
-        setLabels.moveYellowBall(arrowKey);
+        setTimer->start(200);
     }
     if(event->key() == Qt::Key_Right) {
         arrowKey = 4;
-        setLabels.moveYellowBall(arrowKey);
+        setTimer->start(200);
     }
+}
+
+void MainLayout::afterTimeout()
+{
+    setLabels.moveYellowBall(arrowKey);
 }

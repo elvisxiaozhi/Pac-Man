@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QLabel>
+#include <QTimer>
 #include "labels.h"
 #include "dots.h"
 
@@ -16,13 +17,19 @@ public:
     ~MainLayout();
 
 private:
+    int arrowKey;
+
     QWidget *mainInterface;
     QGridLayout *gLayout;
+    QTimer *setTimer;
 
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *);
 
     Labels setLabels;
     Dots setDots;
+
+private slots:
+    void afterTimeout();
 };
 
 #endif // MAINLAYOUT_H
