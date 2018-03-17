@@ -18,8 +18,6 @@ void Dots::generateFiveSpecialDots()
                 pixelLabels[row][col].setObjectName("Special_Dot");
                 break;
             }
-
-            qDebug() << pixelLabels[row][col].objectName();
         }
     }
 }

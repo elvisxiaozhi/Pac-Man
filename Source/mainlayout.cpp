@@ -19,11 +19,13 @@ MainLayout::MainLayout(QWidget *parent)
         }
     }
 
-    setDots.generateFiveSpecialDots();
-
     setLabels.updateLabels();
     setLabels.setBarriers();
     setLabels.setYellowBall();
+
+    setDots.generateFiveSpecialDots();
+
+    setLabels.updateLabels();
     setLabels.setDots();
 }
 
