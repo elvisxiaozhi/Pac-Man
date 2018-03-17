@@ -27,6 +27,8 @@ MainLayout::MainLayout(QWidget *parent)
 
     setLabels.updateLabels();
     setLabels.setDots();
+
+//    setLabels.testing();
 }
 
 MainLayout::~MainLayout()

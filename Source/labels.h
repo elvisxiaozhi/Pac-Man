@@ -19,9 +19,12 @@ public:
     void setYellowBall();
     void moveYellowBall(int);
 
+    void testing();
+
 private:
     int currentRow, currentCol;
 
+    void setEmptyPlaces();
     void updateExternLabels();
     void getCurrentYellowBallPos();
     void moveCurrentYellowBall(int, int);

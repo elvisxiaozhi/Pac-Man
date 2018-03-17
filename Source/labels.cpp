@@ -1,6 +1,6 @@
 #include "labels.h"
 #include <QDebug>
-#include <windows.h> //sleep function
+#include <windows.h>
 
 QLabel **pixelLabels = new QLabel*[13];
 
@@ -15,6 +15,7 @@ Labels::Labels()
             mLabels[i][j]->setFixedSize(25, 25);
         }
     }
+    setEmptyPlaces();
 }
 
 void Labels::updateLabels()
@@ -73,6 +74,26 @@ void Labels::moveYellowBall(int arrowKey)
 
     getCurrentYellowBallPos();
     moveCurrentYellowBall(row, col);
+
+    updateExternLabels();
+}
+
+void Labels::testing()
+{
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            mLabels[i][j]->setText(QString::number(i) + QString::number(j));
+        }
+    }
+}
+
+void Labels::setEmptyPlaces()
+{
+    for(int i = 0; i < 5; i++) {
+        for(int j = 0; j < 2; j++) {
+            mLabels[3 + i][22 + j]->setObjectName("Empty");
+        }
+    }
 
     updateExternLabels();
 }
