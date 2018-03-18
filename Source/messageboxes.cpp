@@ -10,9 +10,9 @@ void MessageBoxes::showPlayAgainMsBox()
     playAgainMsBox.setText("Do you want to play it again?");
     playAgainMsBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     playAgainMsBox.setDefaultButton(QMessageBox::No);
-
     playAgainMsBox.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-//    playAgainMsBox.setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+    playAgainMsBox.setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint); //hide message box icon
+    playAgainMsBox.setMinimumSize(300, 200); //need this to fix a warning
     playAgainMsBox.setStyleSheet("QLabel{min-width: 200px;}");
     int ret = playAgainMsBox.exec();
 

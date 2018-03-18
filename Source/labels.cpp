@@ -9,8 +9,6 @@ Labels::Labels()
 {
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
-            //pixelLabels[i][j].setText(QString::number(i) + QString::number(j)); //用于调试的时候用
-
             mLabels[i][j] = new QLabel;
             mLabels[i][j]->setAlignment(Qt::AlignCenter);
             mLabels[i][j]->setFixedSize(25, 25);
@@ -39,12 +37,33 @@ void Labels::updateExternLabels()
 
 void Labels::setYellowBall()
 {
-    QPixmap yellowBallPixmap("://yellow_ball.png");
+    QPixmap yellowBallPixmap(":/pac-man.png");
     int w, h;
     w = mLabels[0][0]->width();
     h = mLabels[0][0]->height();
     mLabels[11][4]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
     mLabels[11][4]->setObjectName("Yellow_Ball");
+
+    updateExternLabels();
+}
+
+void Labels::setGhosts()
+{
+    QPixmap ghost_1(":/ghost-1.png");
+    QPixmap ghost_2(":/ghost-2.png");
+    QPixmap ghost_3(":/ghost-3.png");
+    QPixmap ghost_4(":/ghost-4.png");
+    int w, h;
+    w = mLabels[0][0]->width();
+    h = mLabels[0][0]->height();
+    mLabels[1][1]->setPixmap(ghost_1.scaled(w, h, Qt::KeepAspectRatio));
+    mLabels[1][1]->setObjectName("Ghost");
+    mLabels[1][28]->setPixmap(ghost_2.scaled(w, h, Qt::KeepAspectRatio));
+    mLabels[1][28]->setObjectName("Ghost");
+    mLabels[11][1]->setPixmap(ghost_3.scaled(w, h, Qt::KeepAspectRatio));
+    mLabels[11][1]->setObjectName("Ghost");
+    mLabels[11][28]->setPixmap(ghost_4.scaled(w, h, Qt::KeepAspectRatio));
+    mLabels[11][28]->setObjectName("Ghost");
 
     updateExternLabels();
 }
@@ -164,7 +183,7 @@ void Labels::getCurrentYellowBallPos()
 
 void Labels::moveCurrentYellowBall(int row, int col)
 {
-    QPixmap yellowBallPixmap("://yellow_ball.png");
+    QPixmap yellowBallPixmap(":/pac-man.png");
     QPixmap emptyPixmap;
 
     int w, h;
@@ -172,11 +191,17 @@ void Labels::moveCurrentYellowBall(int row, int col)
     h = mLabels[0][0]->height();
 
     if(mLabels[currentRow + row][currentCol + col]->objectName() != "Barrier") {
-        mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
-        mLabels[currentRow][currentCol]->setObjectName("");
+        if(mLabels[currentRow + row][currentCol + col]->objectName() == "Ghost") {
+            mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
+            emit gameOver();
+        }
+        else {
+            mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
+            mLabels[currentRow][currentCol]->setObjectName("");
 
-        mLabels[currentRow + row][currentCol + col]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
-        mLabels[currentRow + row][currentCol + col]->setObjectName("Yellow_Ball");
+            mLabels[currentRow + row][currentCol + col]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
+            mLabels[currentRow + row][currentCol + col]->setObjectName("Yellow_Ball");
+        }
     }
 
     getCurrentYellowBallPos();

@@ -5,8 +5,9 @@
 
 extern QLabel **pixelLabels;
 
-class Labels
+class Labels : public QObject
 {
+    Q_OBJECT
 public:
     Labels();
 
@@ -16,6 +17,7 @@ public:
     void setBarriers();
     void setDots();
     void setYellowBall();
+    void setGhosts();
     void moveYellowBall(int);
 
 private:
@@ -25,6 +27,9 @@ private:
     void updateExternLabels();
     void getCurrentYellowBallPos();
     void moveCurrentYellowBall(int, int);
+
+signals:
+    void gameOver();
 };
 
 #endif // LABELS_H

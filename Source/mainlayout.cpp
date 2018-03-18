@@ -25,6 +25,7 @@ MainLayout::MainLayout(QWidget *parent)
     setLabels.updateLabels();
     setLabels.setBarriers();
     setLabels.setYellowBall();
+    setLabels.setGhosts();
 
     setDots.generateFiveSpecialDots();
 
@@ -32,6 +33,8 @@ MainLayout::MainLayout(QWidget *parent)
     setLabels.setDots();
 
     dotNumber = setDots.countDotNumber();
+
+    connect(&setLabels, &Labels::gameOver, this, &MainLayout::gameOver);
 }
 
 MainLayout::~MainLayout()
@@ -69,13 +72,10 @@ bool MainLayout::checkWin()
             }
         }
     }
-    qDebug() << "Ate" << ateNumber;
     if(ateNumber == dotNumber) {
         return true;
     }
-    else {
-        return false;
-    }
+    return false;
 }
 
 void MainLayout::afterTimeout()
@@ -83,6 +83,14 @@ void MainLayout::afterTimeout()
     setLabels.moveYellowBall(arrowKey);
     if(checkWin() == true) {
         setTimer->stop();
+        setMsBox.playAgainMsBox.setWindowTitle("You Won");
         setMsBox.showPlayAgainMsBox();
     }
+}
+
+void MainLayout::gameOver()
+{
+    setTimer->stop();
+    setMsBox.playAgainMsBox.setWindowTitle("You Lost");
+    setMsBox.showPlayAgainMsBox();
 }

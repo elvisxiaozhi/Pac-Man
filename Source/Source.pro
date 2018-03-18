@@ -29,14 +29,19 @@ SOURCES += \
     labels.cpp \
     barriers.cpp \
     dots.cpp \
-    messageboxes.cpp
+    messageboxes.cpp \
+    ghosts.cpp
 
 HEADERS += \
         mainlayout.h \
     labels.h \
     barriers.h \
     dots.h \
-    messageboxes.h
+    messageboxes.h \
+    ghosts.h
 
 RESOURCES += \
     ../Icons/icons.qrc
+
+DISTFILES += \
+    ../Icons/pac-man.png
