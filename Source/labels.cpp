@@ -41,8 +41,8 @@ void Labels::setYellowBall()
     int w, h;
     w = mLabels[0][0]->width();
     h = mLabels[0][0]->height();
-    mLabels[11][4]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
-    mLabels[11][4]->setObjectName("Yellow_Ball");
+    mLabels[11][17]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
+    mLabels[11][17]->setObjectName("Yellow_Ball");
 
     updateExternLabels();
 }
@@ -193,6 +193,7 @@ void Labels::moveCurrentYellowBall(int row, int col)
     if(mLabels[currentRow + row][currentCol + col]->objectName() != "Barrier") {
         if(mLabels[currentRow + row][currentCol + col]->objectName() == "Ghost") {
             mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
+            mLabels[currentRow][currentCol]->setObjectName(""); //this line is uesd to avoid multi pac men when restarting the game
             emit gameOver();
         }
         else {

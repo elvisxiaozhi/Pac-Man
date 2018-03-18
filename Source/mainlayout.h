@@ -34,6 +34,7 @@ private:
 
 private slots:
     void afterTimeout();
+    void playAgain();
     void gameOver();
 };
 

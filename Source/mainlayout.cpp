@@ -22,7 +22,7 @@ MainLayout::MainLayout(QWidget *parent)
         }
     }
 
-    setLabels.updateLabels();
+    setLabels.updateLabels(); //update first, or the barriers will not show
     setLabels.setBarriers();
     setLabels.setYellowBall();
     setLabels.setGhosts();
@@ -34,6 +34,7 @@ MainLayout::MainLayout(QWidget *parent)
 
     dotNumber = setDots.countDotNumber();
 
+    connect(&setMsBox, &MessageBoxes::playAgain, this, &MainLayout::playAgain);
     connect(&setLabels, &Labels::gameOver, this, &MainLayout::gameOver);
 }
 
@@ -86,6 +87,25 @@ void MainLayout::afterTimeout()
         setMsBox.playAgainMsBox.setWindowTitle("You Won");
         setMsBox.showPlayAgainMsBox();
     }
+}
+
+void MainLayout::playAgain()
+{
+    setLabels.setYellowBall();
+    setLabels.setGhosts();
+
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            if(pixelLabels[i][j].objectName() == "Special_Dot" || pixelLabels[i][j].objectName() == "Dot") {
+                pixelLabels[i][j].setObjectName("");
+            }
+        }
+    }
+
+    setDots.generateFiveSpecialDots();
+
+    setLabels.updateLabels();
+    setLabels.setDots();
 }
 
 void MainLayout::gameOver()
