@@ -2,6 +2,7 @@
 #define LABELS_H
 
 #include <QLabel>
+#include "ghosts.h"
 
 extern QLabel **pixelLabels;
 
@@ -21,6 +22,9 @@ public:
     void moveYellowBall(int);
 
 private:
+    Ghosts setGhostsMovement;
+    QLabel beneathGhosts[4][4];
+
     int currentRow, currentCol;
 
     void setEmptyPlaces();

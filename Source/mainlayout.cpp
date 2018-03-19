@@ -13,7 +13,7 @@ MainLayout::MainLayout(QWidget *parent)
     mainInterface->setLayout(gLayout);
     gLayout->setSpacing(0);
 
-    setTimer = new QTimer(); //timer is used for keeping objects moving
+    setTimer = new QTimer(this); //timer is used for keeping objects moving, also need to set the parent to this, or the program will end forcely after closing
     connect(setTimer, &QTimer::timeout, this, &MainLayout::afterTimeout);
 
     for(int i = 0; i < 13; i++) {

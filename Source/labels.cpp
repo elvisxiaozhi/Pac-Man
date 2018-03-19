@@ -66,6 +66,8 @@ void Labels::setGhosts()
     mLabels[11][28]->setObjectName("Ghost");
 
     updateExternLabels();
+
+    setGhostsMovement.getGhostsPos();
 }
 
 void Labels::moveYellowBall(int arrowKey)
