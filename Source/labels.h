@@ -40,6 +40,7 @@ private:
 
 signals:
     void gameOver();
+    void ateSpecialDot();
 
 public slots:
     void resetBeneathGhosts();

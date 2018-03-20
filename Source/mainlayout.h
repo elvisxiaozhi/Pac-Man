@@ -20,11 +20,13 @@ public:
 private:
     int arrowKey;
     int dotNumber;
+    int countdownTime;
 
     QWidget *mainInterface;
     QGridLayout *gLayout;
     QTimer *setTimer;
     QTimer *ghostsTimer;
+    QTimer *countdownTimer;
 
     void keyPressEvent(QKeyEvent *);
     bool checkWin();
@@ -37,6 +39,8 @@ private slots:
     void afterTimeout();
     void playAgain();
     void gameOver();
+    void specialDotEffect();
+    void afterCountingDown();
 };
 
 #endif // MAINLAYOUT_H

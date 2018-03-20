@@ -172,9 +172,11 @@ void Labels::getCurrentYellowBallPos()
 void Labels::moveCurrentYellowBall(int row, int col)
 {
     if(mLabels[currentRow + row][currentCol + col]->objectName() != "Barrier") {
+        if(mLabels[currentRow + row][currentCol + col]->objectName() == "Special_Dot") {
+            emit ateSpecialDot();
+        }
         mLabels[currentRow][currentCol]->setPixmap(QPixmap());
         mLabels[currentRow][currentCol]->setObjectName("");
-
         mLabels[currentRow + row][currentCol + col]->setPixmap(QPixmap(":/pac-man.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
         mLabels[currentRow + row][currentCol + col]->setObjectName("Pac_Man");
     }

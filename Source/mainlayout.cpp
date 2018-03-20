@@ -1,12 +1,11 @@
 #include "mainlayout.h"
 #include <QDebug>
 #include <QKeyEvent>
-#include "windows.h"
 
 MainLayout::MainLayout(QWidget *parent)
     : QMainWindow(parent)
 {
-    setWindowTitle("Pac-Man(Made by Theodore)");
+    setWindowTitle("Pac-Man");
     mainInterface = new QWidget(this);
     setCentralWidget(mainInterface);
     gLayout = new QGridLayout(mainInterface);
@@ -16,7 +15,10 @@ MainLayout::MainLayout(QWidget *parent)
     setTimer = new QTimer(this); //timer is used for keeping objects moving, also need to set the parent to this, or the program will end forcely after closing
     connect(setTimer, &QTimer::timeout, this, &MainLayout::afterTimeout);
     ghostsTimer = new QTimer(this);
+    ghostsTimer->start(150);
     connect(ghostsTimer, &QTimer::timeout, &setLabels, &Labels::moveGhosts);
+    countdownTimer = new QTimer(this);
+    connect(countdownTimer, &QTimer::timeout, this, &MainLayout::afterCountingDown);
 
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
@@ -39,6 +41,7 @@ MainLayout::MainLayout(QWidget *parent)
 
     connect(&setMsBox, &MessageBoxes::playAgain, this, &MainLayout::playAgain);
     connect(&setLabels, &Labels::gameOver, this, &MainLayout::gameOver);
+    connect(&setLabels, &Labels::ateSpecialDot, this, &MainLayout::specialDotEffect);
 }
 
 MainLayout::~MainLayout()
@@ -50,26 +53,17 @@ void MainLayout::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Up) {
         arrowKey = 1;
-//        setTimer->start(200);
-//        ghostsTimer->start(150);
     }
     if(event->key() == Qt::Key_Down) {
         arrowKey = 2;
-//        setTimer->start(200);
-//        ghostsTimer->start(150);
     }
     if(event->key() == Qt::Key_Left) {
         arrowKey = 3;
-//        setTimer->start(200);
-//        ghostsTimer->start(150);
     }
     if(event->key() == Qt::Key_Right) {
         arrowKey = 4;
-//        setTimer->start(200);
-//        ghostsTimer->start(150);
     }
     setTimer->start(200);
-    ghostsTimer->start(150);
 }
 
 bool MainLayout::checkWin()
@@ -126,4 +120,20 @@ void MainLayout::gameOver()
     ghostsTimer->stop();
     setMsBox.playAgainMsBox.setWindowTitle("You Lost");
     setMsBox.showPlayAgainMsBox();
+}
+
+void MainLayout::specialDotEffect()
+{
+    ghostsTimer->stop();
+    countdownTime = 0;
+    countdownTimer->start(1000);
+}
+
+void MainLayout::afterCountingDown()
+{
+    countdownTime++;
+    if(countdownTime == 3) {
+        countdownTimer->stop();
+        ghostsTimer->start(150);
+    }
 }

@@ -75,17 +75,12 @@ void Ghosts::getMoveablePos()
 
     chooseBestMove();
 
-    qDebug() << "Best Move: " << moveablePos;
-    qDebug() << "Before ghosts moved: " << ghostsInfo;
-
     emit ghostsOnTheMove();
 
     moveGhostsPos("Ghost_1", 0);
     moveGhostsPos("Ghost_2", 1);
     moveGhostsPos("Ghost_3", 2);
     moveGhostsPos("Ghost_4", 3);
-
-    qDebug() << "After ghosts moved " << ghostsInfo;
 }
 
 void Ghosts::moveToPacMan(QString ghostName, int ghostNumber, int Pac_Man_Row, int Pac_Man_Col)
