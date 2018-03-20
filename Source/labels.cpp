@@ -172,26 +172,11 @@ void Labels::getCurrentYellowBallPos()
 void Labels::moveCurrentYellowBall(int row, int col)
 {
     if(mLabels[currentRow + row][currentCol + col]->objectName() != "Barrier") {
-//        if(mLabels[currentRow + row][currentCol + col]->objectName() == "Ghost") {
-//            mLabels[currentRow][currentCol]->setPixmap(QPixmap());
-//            mLabels[currentRow][currentCol]->setObjectName(""); //this line is uesd to avoid multi pac men when restarting the game
-//            emit gameOver();
-//        }
-//        if((currentRow + row == setGhostsMovement.ghostsInfo["Ghost_1"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_1"].second)
-//                || (currentRow + row == setGhostsMovement.ghostsInfo["Ghost_2"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_2"].second)
-//                || (currentRow + row == setGhostsMovement.ghostsInfo["Ghost_3"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_3"].second)
-//                || (currentRow + row == setGhostsMovement.ghostsInfo["Ghost_4"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_4"].second)) {
-//            mLabels[currentRow][currentCol]->setPixmap(QPixmap());
-//            mLabels[currentRow][currentCol]->setObjectName(""); //this line is uesd to avoid multi pac men when restarting the game
-//            emit gameOver();
-//        }
-//        else {
         mLabels[currentRow][currentCol]->setPixmap(QPixmap());
         mLabels[currentRow][currentCol]->setObjectName("");
 
         mLabels[currentRow + row][currentCol + col]->setPixmap(QPixmap(":/pac-man.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
         mLabels[currentRow + row][currentCol + col]->setObjectName("Pac_Man");
-//        }
     }
 
     getCurrentYellowBallPos();
@@ -207,49 +192,53 @@ void Labels::resetBeneathGhosts()
         mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("•");
     }
     if(mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("•"); //need to set an unempty text first to avoid showing multiple ghost
         mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("");
     }
-//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->objectName() == "Pac_Man") {
-//        mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("");
-//        emit gameOver();
-//    }
 
     if(mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "Dot" || mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "Special_Dot") {
         mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("•");
     }
     if(mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("•");
         mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("");
     }
-//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "Pac_Man") {
-//        mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("");
-//        emit gameOver();
-//    }
 
     if(mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "Dot" || mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "Special_Dot") {
         mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("•");
     }
     if(mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("•");
         mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("");
     }
-//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "Pac_Man") {
-//        mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("");
-//        emit gameOver();
-//    }
 
     if(mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "Dot" || mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "Special_Dot") {
         mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("•");
     }
     if(mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("•");
         mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("");
     }
-//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "Pac_Man") {
-//        mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("");
-//        emit gameOver();
-//    }
 }
 
 void Labels::moveGhosts()
 {
     setGhostsMovement.getMoveablePos();
     setGhosts();
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->objectName() == "Pac_Man") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("");
+        emit gameOver();
+    }
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "Pac_Man") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("");
+        emit gameOver();
+    }
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "Pac_Man") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("");
+        emit gameOver();
+    }
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "Pac_Man") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("");
+        emit gameOver();
+    }
 }
