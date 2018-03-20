@@ -15,7 +15,8 @@ MainLayout::MainLayout(QWidget *parent)
 
     setTimer = new QTimer(this); //timer is used for keeping objects moving, also need to set the parent to this, or the program will end forcely after closing
     connect(setTimer, &QTimer::timeout, this, &MainLayout::afterTimeout);
-    connect(setTimer, &QTimer::timeout, &setLabels, &Labels::moveGhosts);
+    ghostsTimer = new QTimer(this);
+    connect(ghostsTimer, &QTimer::timeout, &setLabels, &Labels::moveGhosts);
 
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
@@ -49,20 +50,26 @@ void MainLayout::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Up) {
         arrowKey = 1;
-        setTimer->start(200);
+//        setTimer->start(200);
+//        ghostsTimer->start(150);
     }
     if(event->key() == Qt::Key_Down) {
         arrowKey = 2;
-        setTimer->start(200);
+//        setTimer->start(200);
+//        ghostsTimer->start(150);
     }
     if(event->key() == Qt::Key_Left) {
         arrowKey = 3;
-        setTimer->start(200);
+//        setTimer->start(200);
+//        ghostsTimer->start(150);
     }
     if(event->key() == Qt::Key_Right) {
         arrowKey = 4;
-        setTimer->start(200);
+//        setTimer->start(200);
+//        ghostsTimer->start(150);
     }
+    setTimer->start(200);
+    ghostsTimer->start(150);
 }
 
 bool MainLayout::checkWin()
@@ -86,6 +93,7 @@ void MainLayout::afterTimeout()
     setLabels.moveYellowBall(arrowKey);
     if(checkWin() == true) {
         setTimer->stop();
+        ghostsTimer->stop();
         setMsBox.playAgainMsBox.setWindowTitle("You Won");
         setMsBox.showPlayAgainMsBox();
     }
@@ -98,25 +106,24 @@ void MainLayout::playAgain()
             if(pixelLabels[i][j].objectName() == "Special_Dot" || pixelLabels[i][j].objectName() == "Dot") {
                 pixelLabels[i][j].setObjectName("");
             }
-//            if(pixelLabels[i][j].objectName() == "Pac_Man") {
-//                pixelLabels[i][j].setPixmap(QPixmap());
-//                pixelLabels[i][j].setObjectName("");
-//            }
+            if(pixelLabels[i][j].objectName() == "Pac_Man") {
+                pixelLabels[i][j].setObjectName("");
+            }
         }
     }
 
+    setLabels.updateLabels(); //update first, or there will be more than five special dots
     setLabels.setPacMan();
-    setLabels.setGhosts();
-
     setDots.generateFiveSpecialDots();
-
     setLabels.updateLabels();
     setLabels.setDots();
+    setLabels.setGhosts(); //setGhosts must be behide setDots, or ghosts won't show
 }
 
 void MainLayout::gameOver()
 {
     setTimer->stop();
+    ghostsTimer->stop();
     setMsBox.playAgainMsBox.setWindowTitle("You Lost");
     setMsBox.showPlayAgainMsBox();
 }

@@ -24,6 +24,7 @@ private:
     QWidget *mainInterface;
     QGridLayout *gLayout;
     QTimer *setTimer;
+    QTimer *ghostsTimer;
 
     void keyPressEvent(QKeyEvent *);
     bool checkWin();
