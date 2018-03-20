@@ -14,7 +14,10 @@ Labels::Labels()
             mLabels[i][j]->setFixedSize(25, 25);
         }
     }
+    pixmapWidth = mLabels[0][0]->width();
+    pixmapHeight = mLabels[0][0]->height();
     setEmptyPlaces();
+    connect(&setGhostsMovement, &Ghosts::ghostsOnTheMove, this, &Labels::resetBeneathGhosts);
 }
 
 void Labels::updateLabels()
@@ -35,39 +38,22 @@ void Labels::updateExternLabels()
     }
 }
 
-void Labels::setYellowBall()
+void Labels::setPacMan()
 {
-    QPixmap yellowBallPixmap(":/pac-man.png");
-    int w, h;
-    w = mLabels[0][0]->width();
-    h = mLabels[0][0]->height();
-    mLabels[11][17]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
-    mLabels[11][17]->setObjectName("Yellow_Ball");
+    mLabels[11][17]->setPixmap(QPixmap(":/pac-man.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+    mLabels[11][17]->setObjectName("Pac_Man");
 
     updateExternLabels();
 }
 
 void Labels::setGhosts()
 {
-    QPixmap ghost_1(":/ghost-1.png");
-    QPixmap ghost_2(":/ghost-2.png");
-    QPixmap ghost_3(":/ghost-3.png");
-    QPixmap ghost_4(":/ghost-4.png");
-    int w, h;
-    w = mLabels[0][0]->width();
-    h = mLabels[0][0]->height();
-    mLabels[1][1]->setPixmap(ghost_1.scaled(w, h, Qt::KeepAspectRatio));
-    mLabels[1][1]->setObjectName("Ghost");
-    mLabels[1][28]->setPixmap(ghost_2.scaled(w, h, Qt::KeepAspectRatio));
-    mLabels[1][28]->setObjectName("Ghost");
-    mLabels[11][1]->setPixmap(ghost_3.scaled(w, h, Qt::KeepAspectRatio));
-    mLabels[11][1]->setObjectName("Ghost");
-    mLabels[11][28]->setPixmap(ghost_4.scaled(w, h, Qt::KeepAspectRatio));
-    mLabels[11][28]->setObjectName("Ghost");
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setPixmap(QPixmap(":/ghost-1.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setPixmap(QPixmap(":/ghost-2.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setPixmap(QPixmap(":/ghost-3.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setPixmap(QPixmap(":/ghost-4.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
 
     updateExternLabels();
-
-    setGhostsMovement.getGhostsPos();
 }
 
 void Labels::moveYellowBall(int arrowKey)
@@ -174,7 +160,7 @@ void Labels::getCurrentYellowBallPos()
 {
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
-            if(mLabels[i][j]->objectName() == "Yellow_Ball") {
+            if(mLabels[i][j]->objectName() == "Pac_Man") {
                 currentRow = i;
                 currentCol = j;
                 break;
@@ -185,27 +171,85 @@ void Labels::getCurrentYellowBallPos()
 
 void Labels::moveCurrentYellowBall(int row, int col)
 {
-    QPixmap yellowBallPixmap(":/pac-man.png");
-    QPixmap emptyPixmap;
-
-    int w, h;
-    w = mLabels[0][0]->width();
-    h = mLabels[0][0]->height();
-
     if(mLabels[currentRow + row][currentCol + col]->objectName() != "Barrier") {
-        if(mLabels[currentRow + row][currentCol + col]->objectName() == "Ghost") {
-            mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
-            mLabels[currentRow][currentCol]->setObjectName(""); //this line is uesd to avoid multi pac men when restarting the game
-            emit gameOver();
-        }
-        else {
-            mLabels[currentRow][currentCol]->setPixmap(emptyPixmap);
-            mLabels[currentRow][currentCol]->setObjectName("");
+//        if(mLabels[currentRow + row][currentCol + col]->objectName() == "Ghost") {
+//            mLabels[currentRow][currentCol]->setPixmap(QPixmap());
+//            mLabels[currentRow][currentCol]->setObjectName(""); //this line is uesd to avoid multi pac men when restarting the game
+//            emit gameOver();
+//        }
+//        if((currentRow + row == setGhostsMovement.ghostsInfo["Ghost_1"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_1"].second)
+//                || (currentRow + row == setGhostsMovement.ghostsInfo["Ghost_2"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_2"].second)
+//                || (currentRow + row == setGhostsMovement.ghostsInfo["Ghost_3"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_3"].second)
+//                || (currentRow + row == setGhostsMovement.ghostsInfo["Ghost_4"].first && currentCol + col == setGhostsMovement.ghostsInfo["Ghost_4"].second)) {
+//            mLabels[currentRow][currentCol]->setPixmap(QPixmap());
+//            mLabels[currentRow][currentCol]->setObjectName(""); //this line is uesd to avoid multi pac men when restarting the game
+//            emit gameOver();
+//        }
+//        else {
+        mLabels[currentRow][currentCol]->setPixmap(QPixmap());
+        mLabels[currentRow][currentCol]->setObjectName("");
 
-            mLabels[currentRow + row][currentCol + col]->setPixmap(yellowBallPixmap.scaled(w, h, Qt::KeepAspectRatio));
-            mLabels[currentRow + row][currentCol + col]->setObjectName("Yellow_Ball");
-        }
+        mLabels[currentRow + row][currentCol + col]->setPixmap(QPixmap(":/pac-man.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+        mLabels[currentRow + row][currentCol + col]->setObjectName("Pac_Man");
+//        }
     }
 
     getCurrentYellowBallPos();
+}
+
+void Labels::getBeneathGhostsInfo()
+{
+}
+
+void Labels::resetBeneathGhosts()
+{
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->objectName() == "Dot" || mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->objectName() == "Special_Dot") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("•");
+    }
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("");
+    }
+//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->objectName() == "Pac_Man") {
+//        mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setText("");
+//        emit gameOver();
+//    }
+
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "Dot" || mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "Special_Dot") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("•");
+    }
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("");
+    }
+//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->objectName() == "Pac_Man") {
+//        mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setText("");
+//        emit gameOver();
+//    }
+
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "Dot" || mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "Special_Dot") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("•");
+    }
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("");
+    }
+//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->objectName() == "Pac_Man") {
+//        mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setText("");
+//        emit gameOver();
+//    }
+
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "Dot" || mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "Special_Dot") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("•");
+    }
+    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "") {
+        mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("");
+    }
+//    if(mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->objectName() == "Pac_Man") {
+//        mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setText("");
+//        emit gameOver();
+//    }
+}
+
+void Labels::moveGhosts()
+{
+    setGhostsMovement.getMoveablePos();
+    setGhosts();
 }

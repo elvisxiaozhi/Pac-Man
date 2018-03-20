@@ -4,98 +4,23 @@
 
 Ghosts::Ghosts()
 {
+    setGhostsInfo();
 }
 
-void Ghosts::getGhostsPos()
+void Ghosts::moveGhostsPos(QString ghostName, int ghostNumber)
 {
-    ghostsRows.clear();
-    ghostsCols.clear();
-    for(int i = 0; i < 13; i++) {
-        for(int j = 0; j < 30; j++) {
-            if(pixelLabels[i][j].objectName() == "Ghost") {
-                ghostsRows.push_back(i);
-                ghostsCols.push_back(j);
-            }
-        }
+    if(moveablePos[ghostNumber][0] == 1) {
+        ghostsInfo[ghostName].first -= 1;
     }
-    qDebug() << "ghosts pos: " << ghostsRows << ghostsCols;
-
-    getMoveablePos();
-    moveGhostsPos();
-}
-
-void Ghosts::moveGhostsPos()
-{
-    for(int i = 0; i < 4; i++) {
-        moveablePos[i].erase(std::remove_if(moveablePos[i].begin(), moveablePos[i].end(), [](int i) {return i == 0;}), moveablePos[i].end());
+    if(moveablePos[ghostNumber][0] == 2) {
+        ghostsInfo[ghostName].first += 1;
     }
-    qDebug() << "Removed unable moves: "  << moveablePos;
-
-    findBestMove();
-    chooseBestMove();
-
-    for(int i =  0; i < 4; i++) {
-        if(moveablePos[i][0] == 1) {
-            ghostsRows[i] -= 1;
-        }
-        if(moveablePos[i][0] == 2) {
-            ghostsRows[i] += 1;
-        }
-        if(moveablePos[i][0] == 3) {
-            ghostsCols[i] -= 1;
-        }
-        if(moveablePos[i][0] == 4) {
-            ghostsCols[i] += 1;
-        }
+    if(moveablePos[ghostNumber][0] == 3) {
+        ghostsInfo[ghostName].second -= 1;
     }
-    qDebug() << "After ghosts pos: " << ghostsRows << ghostsCols;
-}
-
-void Ghosts::findBestMove()
-{
-    int Yellow_Ball_Row, Yellow_Ball_Col;
-    for(int i = 0; i < 13; i++) {
-        for(int j = 0; j < 30; j++) {
-            if(pixelLabels[i][j].objectName() == "Yellow_Ball") {
-                Yellow_Ball_Row = i;
-                Yellow_Ball_Col = j;
-            }
-        }
+    if(moveablePos[ghostNumber][0] == 4) {
+        ghostsInfo[ghostName].second += 1;
     }
-
-    for(int i = 0; i < 4; i++) {
-        if(Yellow_Ball_Row <= ghostsRows[i]) {
-            if(std::find(moveablePos[i].begin(), moveablePos[i].begin(), 1) != moveablePos[i].end()) {
-                moveablePos[i].push_back(1);
-                if(Yellow_Ball_Col < ghostsCols[i]) {
-                    if(std::find(moveablePos[i].begin(), moveablePos[i].begin(), 3) != moveablePos[i].end()) {
-                        moveablePos[i].push_back(3);
-                    }
-                }
-                if(Yellow_Ball_Col > ghostsCols[i]) {
-                    if(std::find(moveablePos[i].begin(), moveablePos[i].begin(), 4) != moveablePos[i].end()) {
-                        moveablePos[i].push_back(4);
-                    }
-                }
-            }
-        }
-        else {
-            if(std::find(moveablePos[i].begin(), moveablePos[i].begin(), 2) != moveablePos[i].end()) {
-                moveablePos[i].push_back(2);
-                if(Yellow_Ball_Col < ghostsCols[i]) {
-                    if(std::find(moveablePos[i].begin(), moveablePos[i].begin(), 3) != moveablePos[i].end()) {
-                        moveablePos[i].push_back(3);
-                    }
-                }
-                if(Yellow_Ball_Col > ghostsCols[i]) {
-                    if(std::find(moveablePos[i].begin(), moveablePos[i].begin(), 4) != moveablePos[i].end()) {
-                        moveablePos[i].push_back(4);
-                    }
-                }
-            }
-        }
-    }
-    qDebug() << "added new best moves: "<< moveablePos;
 }
 
 void Ghosts::chooseBestMove()
@@ -106,8 +31,16 @@ void Ghosts::chooseBestMove()
         moveablePos[i].clear();
         moveablePos[i].push_back(move);
     }
-    qDebug() << "the best choice: " << moveablePos;
 }
+
+void Ghosts::setGhostsInfo()
+{
+    ghostsInfo["Ghost_1"] = std::make_pair(1, 1);
+    ghostsInfo["Ghost_2"] = std::make_pair(1, 28);
+    ghostsInfo["Ghost_3"] = std::make_pair(11, 1);
+    ghostsInfo["Ghost_4"] = std::make_pair(11, 28);
+}
+
 
 void Ghosts::getMoveablePos()
 {
@@ -116,19 +49,91 @@ void Ghosts::getMoveablePos()
     for(int i = 0; i < 4; i++) {
         moveablePos[i].resize(4);
     }
-    for(int i = 0; i < 4; i++) {
-        if(pixelLabels[ghostsRows[i] - 1][ghostsCols[i]].objectName() != "Barrier") { //up
-            moveablePos[i][0] = 1;
-        }
-        if(pixelLabels[ghostsRows[i] + 1][ghostsCols[i]].objectName() != "Barrier") { //down
-            moveablePos[i][1] = 2;
-        }
-        if(pixelLabels[ghostsRows[i]][ghostsCols[i] - 1].objectName() != "Barrier") { //left
-            moveablePos[i][2] = 3;
-        }
-        if(pixelLabels[ghostsRows[i]][ghostsCols[i] + 1].objectName() != "Barrier") { //right
-            moveablePos[i][3] = 4;
+    checkMoveablePos("Ghost_1", 0);
+    checkMoveablePos("Ghost_2", 1);
+    checkMoveablePos("Ghost_3", 2);
+    checkMoveablePos("Ghost_4", 3);
+
+    for(int i = 0; i < moveablePos.size(); i++) {
+        moveablePos[i].erase(std::remove_if(moveablePos[i].begin(), moveablePos[i].end(), [](int i) {return i == 0;}), moveablePos[i].end());
+    }
+
+    int Pac_Man_Row, Pac_Man_Col;
+    for(int i = 0; i < 13; i++) {
+        for(int j = 0; j < 30; j++) {
+            if(pixelLabels[i][j].objectName() == "Pac_Man") {
+                Pac_Man_Row = i;
+                Pac_Man_Col = j;
+            }
         }
     }
-    qDebug() << "Got possiable moves: " << moveablePos;
+
+    moveToPacMan("Ghost_1", 0, Pac_Man_Row, Pac_Man_Col);
+    moveToPacMan("Ghost_2", 1, Pac_Man_Row, Pac_Man_Col);
+    moveToPacMan("Ghost_3", 2, Pac_Man_Row, Pac_Man_Col);
+    moveToPacMan("Ghost_4", 3, Pac_Man_Row, Pac_Man_Col);
+
+    chooseBestMove();
+
+    qDebug() << "Best Move: " << moveablePos;
+    qDebug() << "Before ghosts moved: " << ghostsInfo;
+
+    emit ghostsOnTheMove();
+
+    moveGhostsPos("Ghost_1", 0);
+    moveGhostsPos("Ghost_2", 1);
+    moveGhostsPos("Ghost_3", 2);
+    moveGhostsPos("Ghost_4", 3);
+
+    qDebug() << "After ghosts moved " << ghostsInfo;
+}
+
+void Ghosts::moveToPacMan(QString ghostName, int ghostNumber, int Pac_Man_Row, int Pac_Man_Col)
+{
+    if(Pac_Man_Row <= ghostsInfo[ghostName].first) {
+        if(std::find(moveablePos[ghostNumber].begin(), moveablePos[ghostNumber].end(), 1) != moveablePos[ghostNumber].end()) {
+            moveablePos[ghostNumber].push_back(1);
+            if(Pac_Man_Col < ghostsInfo[ghostName].second) {
+                if(std::find(moveablePos[ghostNumber].begin(), moveablePos[ghostNumber].end(), 3) != moveablePos[ghostNumber].end()) {
+                    moveablePos[ghostNumber].push_back(3);
+                }
+            }
+            if(Pac_Man_Col > ghostsInfo[ghostName].second) {
+                if(std::find(moveablePos[ghostNumber].begin(), moveablePos[ghostNumber].end(), 4) != moveablePos[ghostNumber].end()) {
+                    moveablePos[ghostNumber].push_back(4);
+                }
+            }
+        }
+    }
+    else {
+        if(std::find(moveablePos[ghostNumber].begin(), moveablePos[ghostNumber].end(), 2) != moveablePos[ghostNumber].end()) {
+            moveablePos[ghostNumber].push_back(2);
+            if(Pac_Man_Col < ghostsInfo[ghostName].second) {
+                if(std::find(moveablePos[ghostNumber].begin(), moveablePos[ghostNumber].end(), 3) != moveablePos[ghostNumber].end()) {
+                    moveablePos[ghostNumber].push_back(3);
+                }
+            }
+            if(Pac_Man_Col > ghostsInfo[ghostName].second) {
+                if(std::find(moveablePos[ghostNumber].begin(), moveablePos[ghostNumber].end(), 4) != moveablePos[ghostNumber].end()) {
+                    moveablePos[ghostNumber].push_back(4);
+                }
+            }
+        }
+    }
+}
+
+void Ghosts::checkMoveablePos(QString ghostName, int ghostNumber)
+{
+    if(pixelLabels[ghostsInfo[ghostName].first - 1][ghostsInfo[ghostName].second].objectName() != "Barrier") {
+        moveablePos[ghostNumber][0] = 1;
+    }
+    if(pixelLabels[ghostsInfo[ghostName].first + 1][ghostsInfo[ghostName].second].objectName() != "Barrier") {
+        moveablePos[ghostNumber][1] = 2;
+    }
+    if(pixelLabels[ghostsInfo[ghostName].first][ghostsInfo[ghostName].second - 1].objectName() != "Barrier") {
+        moveablePos[ghostNumber][2] = 3;
+    }
+    if(pixelLabels[ghostsInfo[ghostName].first][ghostsInfo[ghostName].second + 1].objectName() != "Barrier") {
+        moveablePos[ghostNumber][3] = 4;
+    }
 }

@@ -2,6 +2,7 @@
 #define LABELS_H
 
 #include <QLabel>
+#include <QMap>
 #include "ghosts.h"
 
 extern QLabel **pixelLabels;
@@ -17,23 +18,32 @@ public:
     void updateLabels();
     void setBarriers();
     void setDots();
-    void setYellowBall();
+    void setPacMan();
     void setGhosts();
     void moveYellowBall(int);
 
 private:
     Ghosts setGhostsMovement;
-    QLabel beneathGhosts[4][4];
+    QVector<int> beneathGhostsRows;
+    QVector<int> beneathGhostsCols;
+    QVector<QString> beneathGhostsObjectsNames;
+    QMap<std::pair<int, int>, QString> beneathGhosts;
 
+    int pixmapWidth, pixmapHeight;
     int currentRow, currentCol;
 
     void setEmptyPlaces();
     void updateExternLabels();
     void getCurrentYellowBallPos();
     void moveCurrentYellowBall(int, int);
+    void getBeneathGhostsInfo();
 
 signals:
     void gameOver();
+
+public slots:
+    void resetBeneathGhosts();
+    void moveGhosts();
 };
 
 #endif // LABELS_H

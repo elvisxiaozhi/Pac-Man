@@ -42,6 +42,3 @@ HEADERS += \
 
 RESOURCES += \
     ../Icons/icons.qrc
-
-DISTFILES += \
-    ../Icons/pac-man.png

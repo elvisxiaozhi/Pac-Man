@@ -2,23 +2,30 @@
 #define GHOSTS_H
 
 #include <QVector>
+#include <QMap>
+#include <QObject>
 
-class Ghosts
+class Ghosts : public QObject
 {
+    Q_OBJECT
 public:
     Ghosts();
 
-    QVector<int> ghostsRows;
-    QVector<int> ghostsCols;
+    QMap<QString, std::pair<int, int>> ghostsInfo;
     QVector<QVector<int>> moveablePos;
 
-    void getGhostsPos();
-    void moveGhostsPos();
+    void getMoveablePos();
+    void moveGhostsPos(QString, int);
     void findBestMove();
     void chooseBestMove();
+    void moveToPacMan(QString, int, int, int);
 
 private:
-    void getMoveablePos();
+    void setGhostsInfo();
+    void checkMoveablePos(QString, int);
+
+signals:
+    void ghostsOnTheMove();
 };
 
 #endif // GHOSTS_H
