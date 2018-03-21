@@ -15,7 +15,6 @@ MainLayout::MainLayout(QWidget *parent)
     setTimer = new QTimer(this); //timer is used for keeping objects moving, also need to set the parent to this, or the program will end forcely after closing
     connect(setTimer, &QTimer::timeout, this, &MainLayout::afterTimeout);
     ghostsTimer = new QTimer(this);
-    ghostsTimer->start(150);
     connect(ghostsTimer, &QTimer::timeout, &setLabels, &Labels::moveGhosts);
     countdownTimer = new QTimer(this);
     connect(countdownTimer, &QTimer::timeout, this, &MainLayout::afterCountingDown);
@@ -25,6 +24,8 @@ MainLayout::MainLayout(QWidget *parent)
             gLayout->addWidget(setLabels.mLabels[i][j], i, j);
         }
     }
+
+    iterateTimes = 0;
 
     setLabels.updateLabels(); //update first, or the barriers will not show
     setLabels.setBarriers();
@@ -42,6 +43,8 @@ MainLayout::MainLayout(QWidget *parent)
     connect(&setMsBox, &MessageBoxes::playAgain, this, &MainLayout::playAgain);
     connect(&setLabels, &Labels::gameOver, this, &MainLayout::gameOver);
     connect(&setLabels, &Labels::ateSpecialDot, this, &MainLayout::specialDotEffect);
+    connect(this, &MainLayout::terrifiedGhosts, &setLabels, &Labels::setTerrifiedGhosts);
+    connect(this, &MainLayout::effectGone, &setLabels, &Labels::setGhosts);
 }
 
 MainLayout::~MainLayout()
@@ -64,11 +67,15 @@ void MainLayout::keyPressEvent(QKeyEvent *event)
         arrowKey = 4;
     }
     setTimer->start(200);
+    iterateTimes++;
+    if(iterateTimes == 1) {
+        ghostsTimer->start(150);
+    }
 }
 
 bool MainLayout::checkWin()
 {
-    int ateNumber;
+    int ateNumber = 0;
     for(int i = 0; i < 13; i++) {
         for(int j = 0; j < 30; j++) {
             if(pixelLabels[i][j].objectName() == "") {
@@ -106,6 +113,8 @@ void MainLayout::playAgain()
         }
     }
 
+    iterateTimes = 0;
+
     setLabels.updateLabels(); //update first, or there will be more than five special dots
     setLabels.setPacMan();
     setDots.generateFiveSpecialDots();
@@ -127,6 +136,7 @@ void MainLayout::specialDotEffect()
     ghostsTimer->stop();
     countdownTime = 0;
     countdownTimer->start(1000);
+    emit terrifiedGhosts();
 }
 
 void MainLayout::afterCountingDown()
@@ -135,5 +145,6 @@ void MainLayout::afterCountingDown()
     if(countdownTime == 3) {
         countdownTimer->stop();
         ghostsTimer->start(150);
+        emit effectGone();
     }
 }

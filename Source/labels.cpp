@@ -244,3 +244,13 @@ void Labels::moveGhosts()
         emit gameOver();
     }
 }
+
+void Labels::setTerrifiedGhosts()
+{
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_1"].first][setGhostsMovement.ghostsInfo["Ghost_1"].second]->setPixmap(QPixmap(":/terrified_ghost.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_2"].first][setGhostsMovement.ghostsInfo["Ghost_2"].second]->setPixmap(QPixmap(":/terrified_ghost.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_3"].first][setGhostsMovement.ghostsInfo["Ghost_3"].second]->setPixmap(QPixmap(":/terrified_ghost.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+    mLabels[setGhostsMovement.ghostsInfo["Ghost_4"].first][setGhostsMovement.ghostsInfo["Ghost_4"].second]->setPixmap(QPixmap(":/terrified_ghost.png").scaled(pixmapWidth, pixmapHeight, Qt::KeepAspectRatio));
+
+    updateExternLabels();
+}

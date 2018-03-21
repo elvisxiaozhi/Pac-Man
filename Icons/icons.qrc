@@ -6,5 +6,6 @@
         <file>ghost-2.png</file>
         <file>ghost-3.png</file>
         <file>ghost-4.png</file>
+        <file>terrified_ghost.png</file>
     </qresource>
 </RCC>

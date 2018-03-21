@@ -21,6 +21,7 @@ private:
     int arrowKey;
     int dotNumber;
     int countdownTime;
+    int iterateTimes;
 
     QWidget *mainInterface;
     QGridLayout *gLayout;
@@ -34,6 +35,10 @@ private:
     Labels setLabels;
     Dots setDots;
     MessageBoxes setMsBox;
+
+signals:
+    void terrifiedGhosts();
+    void effectGone();
 
 private slots:
     void afterTimeout();

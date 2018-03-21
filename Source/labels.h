@@ -45,6 +45,7 @@ signals:
 public slots:
     void resetBeneathGhosts();
     void moveGhosts();
+    void setTerrifiedGhosts();
 };
 
 #endif // LABELS_H
